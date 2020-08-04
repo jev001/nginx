@@ -11,3 +11,6 @@ make -f misc/GNUmakefile icons
 
 the required tool:
 *) netpbm to create Win32 icons from xpm sources.
+
+
+* 参考 http://nginx.org/en/docs/dev/development_guide.html
