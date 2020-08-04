@@ -2,6 +2,7 @@
 # Copyright (C) Igor Sysoev
 # Copyright (C) Nginx, Inc.
 
+# 初始化 Makefile文件
 
 NGX_MAKEFILE=$NGX_OBJS/Makefile
 NGX_MODULES_C=$NGX_OBJS/ngx_modules.c

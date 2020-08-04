@@ -8,7 +8,7 @@
 #ifndef _NGX_CORE_H_INCLUDED_
 #define _NGX_CORE_H_INCLUDED_
 
-
+//  添加nginx 配置模块
 #include <ngx_config.h>
 
 
@@ -42,10 +42,13 @@ typedef void (*ngx_connection_handler_pt)(ngx_connection_t *c);
 #define  NGX_DECLINED   -5
 #define  NGX_ABORT      -6
 
-
+// nginx 错误处理
 #include <ngx_errno.h>
+// nginx 原子操作？？？？
 #include <ngx_atomic.h>
+// nginx 线程模块
 #include <ngx_thread.h>
+// nginx b树模块???/ 为什么要使用  B树
 #include <ngx_rbtree.h>
 #include <ngx_time.h>
 #include <ngx_socket.h>

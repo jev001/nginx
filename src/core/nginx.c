@@ -4,8 +4,9 @@
  * Copyright (C) Nginx, Inc.
  */
 
-
+//  添加nginx 配置模块
 #include <ngx_config.h>
+// 添加nginx 核心模块
 #include <ngx_core.h>
 #include <nginx.h>
 
@@ -191,6 +192,7 @@ static char        *ngx_signal;
 static char **ngx_os_environ;
 
 
+// nginx 启动
 int ngx_cdecl
 main(int argc, char *const *argv)
 {
@@ -201,6 +203,7 @@ main(int argc, char *const *argv)
     ngx_conf_dump_t  *cd;
     ngx_core_conf_t  *ccf;
 
+    // nginx debug 模式初始化
     ngx_debug_init();
 
     if (ngx_strerror_init() != NGX_OK) {
@@ -737,7 +740,7 @@ ngx_exec_new_binary(ngx_cycle_t *cycle, char *const *argv)
     return pid;
 }
 
-
+// nginx 命令行配置设置
 static ngx_int_t
 ngx_get_options(int argc, char *const *argv)
 {

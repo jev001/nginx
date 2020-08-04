@@ -1,6 +1,7 @@
 
 # Copyright (C) Nginx, Inc.
 
+echo 'aaaaaa'$USE_THREADS
 
 if [ $USE_THREADS = YES ]; then
 

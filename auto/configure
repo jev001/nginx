@@ -6,12 +6,16 @@
 
 LC_ALL=C
 export LC_ALL
-
+# 检查配置了哪些数据, 这些数据是否配置成功了, 配置对了 这个是我们在编译的时候的可选参数
 . auto/options
+# 初始化 需要构建的 一些基础文件信息(包含最后生成的Makefile 的文件地址)
 . auto/init
+# 配置源码变量--->主要make使用的变量
 . auto/sources
 
+echo "test -d $NGX_OBJS || mkdir -p $NGX_OBJS"
 test -d $NGX_OBJS || mkdir -p $NGX_OBJS
+echo "end test -d $NGX_OBJS || mkdir -p $NGX_OBJS"
 
 echo > $NGX_AUTO_HEADERS_H
 echo > $NGX_AUTOCONF_ERR

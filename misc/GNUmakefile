@@ -10,9 +10,9 @@ OPENSSL =	openssl-1.1.1f
 ZLIB =		zlib-1.2.11
 PCRE =		pcre-8.44
 
-
+# 发行版设置
 release: export
-
+	
 	mv $(TEMP)/$(NGINX)/auto/configure $(TEMP)/$(NGINX)
 
 	# delete incomplete sources
