@@ -56,15 +56,25 @@ extern ngx_module_t  ngx_http_copy_filter_module;
 extern ngx_module_t  ngx_http_range_body_filter_module;
 extern ngx_module_t  ngx_http_not_modified_filter_module;
 
+// 默认ngx_需要加载的模块
 ngx_module_t *ngx_modules[] = {
+    // 核心模块 不可缺少
     &ngx_core_module,
+    // 日志模块 
     &ngx_errlog_module,
+    // 配置文件模块 
     &ngx_conf_module,
+    // 正则模块
     &ngx_regex_module,
+    // 事件模块
     &ngx_events_module,
+    // 事件核心模块---->代码应该是在 ngx_event中 然后events里面包含了各种模块
     &ngx_event_core_module,
+    // kqueue事件模块
     &ngx_kqueue_module,
+    // http模块
     &ngx_http_module,
+    // http核心模块？？？ 为啥是这个？？？
     &ngx_http_core_module,
     &ngx_http_log_module,
     &ngx_http_upstream_module,

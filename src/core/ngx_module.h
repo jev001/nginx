@@ -219,8 +219,11 @@
 #define NGX_MODULE_V1_PADDING  0, 0, 0, 0, 0, 0, 0, 0
 
 
+// nginx 模块结构体
 struct ngx_module_s {
+    // 上下文index???
     ngx_uint_t            ctx_index;
+    // index????? 回合上面的冲突吗？
     ngx_uint_t            index;
 
     char                 *name;
@@ -233,19 +236,23 @@ struct ngx_module_s {
 
     void                 *ctx;
     ngx_command_t        *commands;
+    // nginx 模块类型不同的模块有不同的类型
     ngx_uint_t            type;
 
     ngx_int_t           (*init_master)(ngx_log_t *log);
 
     ngx_int_t           (*init_module)(ngx_cycle_t *cycle);
-
+    // 进程指针 函数指针
     ngx_int_t           (*init_process)(ngx_cycle_t *cycle);
+    // 初始化运行指针 函数指针
     ngx_int_t           (*init_thread)(ngx_cycle_t *cycle);
+    // 模块关闭时指针 函数指针
     void                (*exit_thread)(ngx_cycle_t *cycle);
     void                (*exit_process)(ngx_cycle_t *cycle);
 
     void                (*exit_master)(ngx_cycle_t *cycle);
 
+    // 占位符
     uintptr_t             spare_hook0;
     uintptr_t             spare_hook1;
     uintptr_t             spare_hook2;
@@ -256,7 +263,7 @@ struct ngx_module_s {
     uintptr_t             spare_hook7;
 };
 
-
+// 核心模块定义一些函数指针 创建配置 和初始化配置
 typedef struct {
     ngx_str_t             name;
     void               *(*create_conf)(ngx_cycle_t *cycle);

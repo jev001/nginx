@@ -156,15 +156,16 @@ static ngx_command_t  ngx_core_commands[] = {
       ngx_null_command
 };
 
-
+// nginx 核心模块上下文？
 static ngx_core_module_t  ngx_core_module_ctx = {
     ngx_string("core"),
     ngx_core_module_create_conf,
     ngx_core_module_init_conf
 };
 
-
+// nginx 核心模块
 ngx_module_t  ngx_core_module = {
+    // nginx 模块版本1占位
     NGX_MODULE_V1,
     &ngx_core_module_ctx,                  /* module context */
     ngx_core_commands,                     /* module directives */
@@ -225,19 +226,23 @@ main(int argc, char *const *argv)
     /* TODO */ ngx_max_sockets = -1;
 
     ngx_time_init();
-
+// nginx 开启正则匹配？？？？？ 默认情况是开启的
 #if (NGX_PCRE)
     ngx_regex_init();
 #endif
 
+    // 获取当前运行 的pid 
     ngx_pid = ngx_getpid();
+    // 获取当前运行的 paraent pid 这个是为什么？为了 fork 做准备？？？？
     ngx_parent = ngx_getppid();
 
+    // nginx 日志模块初始化
     log = ngx_log_init(ngx_prefix);
     if (log == NULL) {
         return 1;
     }
 
+// nginx 开始 ssl 访问  nginx_event_openssl 模块
     /* STUB */
 #if (NGX_OPENSSL)
     ngx_ssl_init(log);
@@ -249,6 +254,7 @@ main(int argc, char *const *argv)
      */
 
     ngx_memzero(&init_cycle, sizeof(ngx_cycle_t));
+    // 初始化生命周期？？？  nginx 生命周期. init_cycle 用于占位别名
     init_cycle.log = log;
     ngx_cycle = &init_cycle;
 
@@ -287,10 +293,12 @@ main(int argc, char *const *argv)
         return 1;
     }
 
+    // 预初始化模块----> 用来计算需要的模块数量
     if (ngx_preinit_modules() != NGX_OK) {
         return 1;
     }
 
+    // 初始化生命周期   为什么不适用同一个, 需要新创一个 cycle 的空间,虽然很多东西都是引用
     cycle = ngx_init_cycle(&init_cycle);
     if (cycle == NULL) {
         if (ngx_test_config) {
@@ -327,6 +335,7 @@ main(int argc, char *const *argv)
         return 0;
     }
 
+    // nginx 信号处理  使用 nginx -s 的时候 会添加 这个信号变量. 然后统一处理
     if (ngx_signal) {
         return ngx_signal_process(cycle, ngx_signal);
     }
@@ -340,9 +349,9 @@ main(int argc, char *const *argv)
     if (ccf->master && ngx_process == NGX_PROCESS_SINGLE) {
         ngx_process = NGX_PROCESS_MASTER;
     }
-
+// nginx unix 下初始化一些东西
 #if !(NGX_WIN32)
-
+    // 初始化心好累？
     if (ngx_init_signals(cycle->log) != NGX_OK) {
         return 1;
     }
@@ -361,6 +370,7 @@ main(int argc, char *const *argv)
 
 #endif
 
+    // 创建pid 文件
     if (ngx_create_pidfile(&ccf->pid, cycle->log) != NGX_OK) {
         return 1;
     }
@@ -369,6 +379,7 @@ main(int argc, char *const *argv)
         return 1;
     }
 
+    // 需要关闭文件、？？？？？
     if (log->file->fd != ngx_stderr) {
         if (ngx_close_file(log->file->fd) == NGX_FILE_ERROR) {
             ngx_log_error(NGX_LOG_ALERT, cycle->log, ngx_errno,
@@ -377,7 +388,7 @@ main(int argc, char *const *argv)
     }
 
     ngx_use_stderr = 0;
-
+    // 检查nginx 目前是什么类型的 
     if (ngx_process == NGX_PROCESS_SINGLE) {
         ngx_single_process_cycle(cycle);
 

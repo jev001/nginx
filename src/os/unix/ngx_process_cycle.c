@@ -10,6 +10,7 @@
 #include <ngx_event.h>
 #include <ngx_channel.h>
 
+// nginx 进程生命周期
 
 static void ngx_start_worker_processes(ngx_cycle_t *cycle, ngx_int_t n,
     ngx_int_t type);
@@ -18,7 +19,9 @@ static void ngx_start_cache_manager_processes(ngx_cycle_t *cycle,
 static void ngx_pass_open_channel(ngx_cycle_t *cycle, ngx_channel_t *ch);
 static void ngx_signal_worker_processes(ngx_cycle_t *cycle, int signo);
 static ngx_uint_t ngx_reap_children(ngx_cycle_t *cycle);
+// nginx 主从模式指 master 创建
 static void ngx_master_process_exit(ngx_cycle_t *cycle);
+// nginx 主从模式指 worker 创建
 static void ngx_worker_process_cycle(ngx_cycle_t *cycle, void *data);
 static void ngx_worker_process_init(ngx_cycle_t *cycle, ngx_int_t worker);
 static void ngx_worker_process_exit(ngx_cycle_t *cycle);
@@ -69,7 +72,7 @@ static ngx_cycle_t      ngx_exit_cycle;
 static ngx_log_t        ngx_exit_log;
 static ngx_open_file_t  ngx_exit_log_file;
 
-
+// nginx 主从模式生命周期
 void
 ngx_master_process_cycle(ngx_cycle_t *cycle)
 {
@@ -285,6 +288,7 @@ ngx_master_process_cycle(ngx_cycle_t *cycle)
 }
 
 
+// 单线程启动
 void
 ngx_single_process_cycle(ngx_cycle_t *cycle)
 {
@@ -294,7 +298,7 @@ ngx_single_process_cycle(ngx_cycle_t *cycle)
         /* fatal */
         exit(2);
     }
-
+    // 循环遍历需要加载的模块  ***重要
     for (i = 0; cycle->modules[i]; i++) {
         if (cycle->modules[i]->init_process) {
             if (cycle->modules[i]->init_process(cycle) == NGX_ERROR) {

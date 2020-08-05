@@ -163,9 +163,10 @@ ngx_ssl_init(ngx_log_t *log)
     OpenSSL_add_all_algorithms();
 
 #endif
-
+// ssl 情况下是否不压缩请求
 #ifndef SSL_OP_NO_COMPRESSION
     {
+        // 关闭 gzip 在openssl 1.0.0版本之前
     /*
      * Disable gzip compression in OpenSSL prior to 1.0.0 version,
      * this saves about 522K per connection.

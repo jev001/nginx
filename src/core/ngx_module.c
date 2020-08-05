@@ -21,7 +21,9 @@ static ngx_uint_t ngx_module_ctx_index(ngx_cycle_t *cycle, ngx_uint_t type,
 ngx_uint_t         ngx_max_module;
 static ngx_uint_t  ngx_modules_n;
 
-
+// 预加载模块数量 模块数量=实际模块数量-1 + 动态模块数量
+// 动态模块数量 一般是128个,也就是说, 一个nginx 在不重启的情况下可以多加载 128个模块
+// 固定模块数量是在 编译的时候 使用 auto/modules 在objs下生成的ngx_modules里面 *重要
 ngx_int_t
 ngx_preinit_modules(void)
 {
@@ -46,7 +48,7 @@ ngx_cycle_modules(ngx_cycle_t *cycle)
      * create a list of modules to be used for this cycle,
      * copy static modules to it
      */
-
+    // 初始化模块数组大小
     cycle->modules = ngx_pcalloc(cycle->pool, (ngx_max_module + 1)
                                               * sizeof(ngx_module_t *));
     if (cycle->modules == NULL) {

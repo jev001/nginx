@@ -94,7 +94,7 @@ ngx_os_init(ngx_log_t *log)
     return NGX_OK;
 }
 
-
+// 记录当前nginx 的状况
 void
 ngx_os_status(ngx_log_t *log)
 {
