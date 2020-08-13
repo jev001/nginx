@@ -289,6 +289,7 @@ main(int argc, char *const *argv)
 
     ngx_slab_sizes_init();
 
+    // 添加 子进程的通信
     if (ngx_add_inherited_sockets(&init_cycle) != NGX_OK) {
         return 1;
     }

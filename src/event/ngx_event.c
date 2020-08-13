@@ -90,7 +90,7 @@ static ngx_command_t  ngx_events_commands[] = {
       ngx_null_command
 };
 
-
+// ngx 核心模块--->事件模块 上下文初始化添加
 static ngx_core_module_t  ngx_events_module_ctx = {
     ngx_string("events"),
     NULL,
@@ -164,7 +164,7 @@ static ngx_command_t  ngx_event_core_commands[] = {
       ngx_null_command
 };
 
-
+// ngx 事件核心模块上下文
 static ngx_event_module_t  ngx_event_core_module_ctx = {
     &event_core_name,
     ngx_event_core_create_conf,            /* create configuration */
@@ -174,6 +174,7 @@ static ngx_event_module_t  ngx_event_core_module_ctx = {
 };
 
 
+// 构建事件核心模块----> 添加模块初始化步骤
 ngx_module_t  ngx_event_core_module = {
     NGX_MODULE_V1,
     &ngx_event_core_module_ctx,            /* module context */
@@ -411,7 +412,7 @@ ngx_handle_write_event(ngx_event_t *wev, size_t lowat)
     return NGX_OK;
 }
 
-
+// ngx 事件初始化配置====> nginx 事件初始化  配置文件初始化
 static char *
 ngx_event_init_conf(ngx_cycle_t *cycle, void *conf)
 {
@@ -465,6 +466,7 @@ ngx_event_init_conf(ngx_cycle_t *cycle, void *conf)
 }
 
 
+// 事件模块初始化
 static ngx_int_t
 ngx_event_module_init(ngx_cycle_t *cycle)
 {
