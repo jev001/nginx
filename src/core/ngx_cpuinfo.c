@@ -68,17 +68,18 @@ ngx_cpuid(uint32_t i, uint32_t *buf)
 
 
 /* auto detect the L2 cache line size of modern and widespread CPUs */
-
+// 对于现代CPU 自动检测l2 缓存行的大小. =====> 检测cpuinfo 可以有效的利用l2的缓存信息进行高速数据处理
+// 获取cpu中的编号. 利用不同cpu 的编号硬编码将缓存大小写入
 void
 ngx_cpuinfo(void)
 {
     u_char    *vendor;
     uint32_t   vbuf[5], cpu[4], model;
 
-    vbuf[0] = 0;
-    vbuf[1] = 0;
-    vbuf[2] = 0;
-    vbuf[3] = 0;
+    vbuf[0] = 0; // eax
+    vbuf[1] = 0; // ebx
+    vbuf[2] = 0; // edx
+    vbuf[3] = 0; // ecx
     vbuf[4] = 0;
 
     ngx_cpuid(0, vbuf);
